@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos v.5</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{ contador }}</p>
+        <button v-on:click="somar(5, $event)">Soma 1</button>
+        <p v-on:mousemove="atualizaXY">
+            Mouse: {{ x }} e {{ y }}
+            <span v-on:mousemove.stop>PARAR AQUI!!!</span>  <!-- event.stopPropagation() -->
+        </p>
+        <a v-on:click.prevent href="https://www.google.com">Google</a> <!-- event.preventDefault() -->
+        <hr>
+        <input type="text" v-on:keyup.enter.alt="exibirAlerta">
+    </div>
+
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                contador: 0,
+                x: 0,
+                y: 0
+            },
+            methods: {
+                somar(passo, event) {
+                    console.log(event)
+                    this.contador += passo
+                },
+                atualizaXY(event) { 
+                    console.log(event)
+                    this.x = event.clientX
+                    this.y = event.clientY
+                },
+                parar(event) {
+                    event.stopPropagation()
+                },
+                exibirAlerta(event) {
+                    alert("Estou te alertando")
+                },
+                naoNavegar(event) {
+                    event.preventDefault()
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
