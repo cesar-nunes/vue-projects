@@ -40,8 +40,14 @@ html {
     margin: 10px 0px 10px 0px;
 }
 
-.tyson-life {
+.player-life-percentage {
+    height: 100%;
+    width: 100%;
+}
 
+.tyson-life {
+    height: 100%;
+    width: 100%;
 }
 
 /* FIGHTERS */
@@ -57,23 +63,40 @@ html {
 /* BUTTONS */
 
 .buttons {
+    display: flex;
+    justify-content: center;
 }
 
 .button {
     border-radius: 25px;
+    margin: 0px 5px 0px 5px;
+    height: 40px;
+    width: 70px;
 }
 
-#jab {
+.new-match {
+    background-color: rgb(111, 162, 255);
+    color: white;
+    width: 100px;
+}
+
+.jab {
     background-color: blue;
     color: white;
 }
 
-#cross {
+.cross {
     background-color: orange;
+    color: white;
 }
 
-#heal {
+.heal {
     background-color: green;
+    color: white;
+}
+
+.give-up {
+    background-color: rgba(116, 115, 115, 0.568);
     color: white;
 }
 
