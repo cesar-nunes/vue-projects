@@ -16,6 +16,8 @@ html {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
 }
 
+/* GENERAL */
+
 /* FIGHTERS */
 
 .fighters {
@@ -24,15 +26,33 @@ html {
 
 .fighter {
     border: 1px solid black;
-    margin: 10px;
     flex: 50%;
+    height: 100px;
+    margin: 10px 40px 10px 40px;
+    padding: 10px;
+    text-align: center;
 }
+
+.life-bar {
+    height: 30px;
+    border: 1px solid black;
+    background-color: green;
+    margin: 10px 0px 10px 0px;
+}
+
+.tyson-life {
+
+}
+
+/* FIGHTERS */
 
 /* RESULT */
 
 .result {
 
 }
+
+/* RESULT */
 
 /* BUTTONS */
 
@@ -57,8 +77,12 @@ html {
     color: white;
 }
 
+/* BUTTONS */
+
 /* LOGS */
 
 .logs {
 
 }
+
+/* LOGS */
