@@ -7,20 +7,62 @@ new Vue({
 
     },
     methods: {
+        startMatch() {
+            console.log("Starting a new match...")
+
+        },
+        processJab() {
+            console.log("Processing jab...")
+
+            // calculate hits
+
+
+            // update life bars and life %
+
+
+            // create logs
+            this.createLogs(10, 8)
+        },
+        processCross() {
+            console.log("Processing cross...")
+
+        },
+        processHeal() {
+            console.log("Processing heal...")
+
+        },
+        resetMatch() {
+            console.log("Reseting match...")
+
+            // clear and hide log panel
+            const logPanel = document.querySelector("div.panel.logs")
+
+            let counter = 0
+            while (logPanel.hasChildNodes()) {
+                logPanel.removeChild(logPanel.lastChild)
+                counter++
+            }
+            console.log(`${counter} logs removed from the log panel.`)
+
+            // reset life bars and life %
+
+
+            // show "New Match" button and hide the others
+        },
         createLogs(playerHit, tysonHit) {
             console.log("Creating logs...")
 
-            // Player log
+            // player log
             const playerLog = document.createElement("div")
             playerLog.className = "base-log player-log"
-            playerLog.innerText = `You took ${playerHit}% of Tyson's energy.`
+            playerLog.innerText = `You took ${playerHit.toString()}% of Tyson's energy.`
 
-            // Tyson log
+            // tyson log
             const tysonLog = document.createElement("div")
             tysonLog.className = "base-log tyson-log"
-            tysonLog.innerText = `You lost ${tysonHit}% of your energy.`
+            tysonLog.innerText = `You lost ${tysonHit.toString()}% of your energy.`
 
-            // Append logs to the Log Panel
+            // append logs to the log panel
             const logPanel = document.querySelector("div.panel.logs")
             logPanel.appendChild(playerLog)
             logPanel.appendChild(tysonLog)

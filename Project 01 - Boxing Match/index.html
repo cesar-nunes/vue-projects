@@ -36,11 +36,11 @@
         </div>
 
         <div class="panel buttons">
-            <input type="button" value="NEW MATCH" class="button new-match">
-            <input type="button" value="JAB" class="button jab" @click="createLogs(10, 8)">
-            <input type="button" value="CROSS" class="button cross">
-            <input type="button" value="HEAL" class="button heal">
-            <input type="button" value="GIVE UP" class="button give-up">
+            <input type="button" value="NEW MATCH" class="button new-match" @click="startMatch()">
+            <input type="button" value="JAB" class="button jab" @click="processJab()">
+            <input type="button" value="CROSS" class="button cross" @click="processCross()">
+            <input type="button" value="HEAL" class="button heal" @click="processHeal()">
+            <input type="button" value="RESET" class="button reset" @click="resetMatch()">
         </div>
 
         <div class="panel logs"></div>
