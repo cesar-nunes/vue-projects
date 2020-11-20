@@ -33,19 +33,19 @@ html {
     text-align: center;
 }
 
-.life-bar {
+.base-life-bar {
     height: 30px;
     border: 1px solid black;
     background-color: green;
     margin: 10px 0px 10px 0px;
 }
 
-.player-life-percentage {
+.player-life-bar {
     height: 100%;
     width: 100%;
 }
 
-.tyson-life {
+.tyson-life-bar {
     height: 100%;
     width: 100%;
 }
@@ -55,7 +55,18 @@ html {
 /* RESULT */
 
 .result {
+    display: flex;
+    justify-content: center;
+}
 
+.you-won {
+    color: green;
+    font-weight: bold;
+}
+
+.you-lost {
+    color: red;
+    font-weight: bold;
 }
 
 /* RESULT */
@@ -72,6 +83,7 @@ html {
     margin: 0px 5px 0px 5px;
     height: 40px;
     width: 70px;
+    font-weight: bold;
 }
 
 .new-match {
@@ -105,7 +117,26 @@ html {
 /* LOGS */
 
 .logs {
+    display: flex;
+    flex-direction: column;
+}
 
+.base-log {
+    height: 25px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding-top: 5px;
+    text-align: center;
+}
+
+.player-log {
+    background-color: rgba(26, 85, 212, 0.671);
+    color: white;
+}
+
+.tyson-log {
+    background-color: rgba(228, 78, 52, 0.74);
+    color: white;
 }
 
 /* LOGS */
