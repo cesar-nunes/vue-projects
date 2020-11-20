@@ -25,12 +25,14 @@ html {
 }
 
 .fighter {
-    border: 1px solid black;
     flex: 50%;
     height: 100px;
     margin: 10px 40px 10px 40px;
     padding: 10px;
     text-align: center;
+
+    /* remove later*/
+    border: 1px solid black;
 }
 
 .base-life-bar {
@@ -56,17 +58,24 @@ html {
 
 .result {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    text-align: center;
 }
 
 .you-won {
     color: green;
     font-weight: bold;
+
+    /* remove later*/
+    border: 1px solid black;
 }
 
 .you-lost {
     color: red;
     font-weight: bold;
+    
+    /* remove later*/
+    border: 1px solid black;
 }
 
 /* RESULT */
@@ -123,10 +132,13 @@ html {
 
 .base-log {
     height: 25px;
-    border: 1px solid black;
     border-radius: 5px;
     padding-top: 5px;
     text-align: center;
+    margin-bottom: 5px;
+
+    /* remove later*/
+    border: 1px solid black;
 }
 
 .player-log {

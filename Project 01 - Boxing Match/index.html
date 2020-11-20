@@ -37,16 +37,13 @@
 
         <div class="panel buttons">
             <input type="button" value="NEW MATCH" class="button new-match">
-            <input type="button" value="JAB" class="button jab">
+            <input type="button" value="JAB" class="button jab" @click="createLogs(10, 8)">
             <input type="button" value="CROSS" class="button cross">
             <input type="button" value="HEAL" class="button heal">
             <input type="button" value="GIVE UP" class="button give-up">
         </div>
 
-        <div class="panel logs">
-            <div class="base-log player-log">You took 12% of Tyson's energy.</div>
-            <div class="base-log tyson-log">You lost 9% of your energy.</div>
-        </div>
+        <div class="panel logs"></div>
     </div>
 
     <script src="./app.js"></script>
