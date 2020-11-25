@@ -1,7 +1,13 @@
 new Vue({
     el: "#app",
     data: {
+        player: {
+            minJab: 5,
+            maxJab: 10,
+        },
+        tyson: {
 
+        }
     },
     computed: {
 
@@ -15,13 +21,14 @@ new Vue({
             console.log("Processing jab...")
 
             // calculate hits
-
+            const playerHit = this.getPlayerJabHit()
+            console.log(playerHit) 
 
             // update life bars and life %
 
 
             // create logs
-            this.createLogs(10, 8)
+            this.createLogs(playerHit, 0)
         },
         processCross() {
             console.log("Processing cross...")
@@ -48,6 +55,29 @@ new Vue({
 
 
             // show "New Match" button and hide the others
+        },
+        /**
+         * Returns a random number between min (inclusive) and max (inclusive)
+         * @param {Number} min Minimum number of the interval
+         * @param {Number} max Maximum number of the interval
+         * @return {Number}    Random number between the interval
+         */
+        getRandomNumber(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) + min)
+        },
+        getPlayerJabHit() {
+            const minHit = this.player.minJab
+            const maxHit = this.player.maxJab
+            return this.getRandomNumber(minHit, maxHit)
+        },
+        getPlayerCrossHit() {
+
+        },
+        getPlayerHeal() {
+
+        },
+        getTysonHit(){
+
         },
         createLogs(playerHit, tysonHit) {
             console.log("Creating logs...")
