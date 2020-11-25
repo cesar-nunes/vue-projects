@@ -2,11 +2,14 @@ new Vue({
     el: "#app",
     data: {
         player: {
+            life: "100%",
             minJab: 5,
-            maxJab: 10,
+            maxJab: 10
         },
         tyson: {
-
+            life: "100%",
+            minHit: 7,
+            maxHit: 12
         }
     },
     computed: {
@@ -22,13 +25,20 @@ new Vue({
 
             // calculate hits
             const playerHit = this.getPlayerJabHit()
-            console.log(playerHit) 
+            const tysonHit = this.getTysonHit()
+
+            console.log(`Player hit: ${playerHit}, Tyson hit: ${tysonHit}`)
 
             // update life bars and life %
+            this.updateFighterLife(this.player, tysonHit)
+            this.updateFighterLife(this.tyson, playerHit)
 
+            console.log(`Player life: ${this.player.life}, Tyson life: ${this.tyson.life}`)
 
             // create logs
-            this.createLogs(playerHit, 0)
+            this.createLogs(playerHit, tysonHit)
+
+            console.log("Jab processed successfully!")
         },
         processCross() {
             console.log("Processing cross...")
@@ -66,9 +76,7 @@ new Vue({
             return Math.floor(Math.random() * (max - min + 1) + min)
         },
         getPlayerJabHit() {
-            const minHit = this.player.minJab
-            const maxHit = this.player.maxJab
-            return this.getRandomNumber(minHit, maxHit)
+            return this.getRandomNumber(this.player.minJab, this.player.maxJab)
         },
         getPlayerCrossHit() {
 
@@ -77,7 +85,12 @@ new Vue({
 
         },
         getTysonHit(){
-
+            return this.getRandomNumber(this.tyson.minHit, this.tyson.maxHit)
+        },
+        updateFighterLife(fighter, opponentHit) {
+            let fighterLife = Number(fighter.life.substring(0, fighter.life.length - 1))
+            fighterLife -= opponentHit
+            fighter.life = fighterLife <= 0 ? "0%" : `${fighterLife}%`
         },
         createLogs(playerHit, tysonHit) {
             console.log("Creating logs...")

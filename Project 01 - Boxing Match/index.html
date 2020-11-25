@@ -18,16 +18,16 @@
             <div class="fighter">
                 You
                 <div class="base-life-bar">
-                    <div class="player-life-bar"></div>
+                    <div class="player-life-bar" :style="{width: player.life}"></div>
                 </div>
-                <div class="player-life-percentage">100%</div>
+                <div class="player-life-percentage">{{ player.life }}</div>
             </div>
             <div class="fighter">
                 Mike Tyson
                 <div class="base-life-bar">
-                    <div class="tyson-life-bar"></div>
+                    <div class="tyson-life-bar" :style="{width: tyson.life}"></div>
                 </div>
-                <div class="tyson-life-percentage">100%</div>
+                <div class="tyson-life-percentage">{{ tyson.life }}</div>
             </div>
         </div>
 

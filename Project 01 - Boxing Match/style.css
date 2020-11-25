@@ -38,18 +38,17 @@ html {
 .base-life-bar {
     height: 30px;
     border: 1px solid black;
-    background-color: green;
     margin: 10px 0px 10px 0px;
 }
 
 .player-life-bar {
+    background-color: green;
     height: 100%;
-    width: 100%;
 }
 
 .tyson-life-bar {
+    background-color: green;
     height: 100%;
-    width: 100%;
 }
 
 /* FIGHTERS */
