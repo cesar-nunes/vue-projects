@@ -140,13 +140,18 @@ html {
     border: 1px solid black;
 }
 
-.player-log {
+.player-hit-log {
     background-color: rgba(26, 85, 212, 0.671);
     color: white;
 }
 
-.tyson-log {
+.tyson-hit-log {
     background-color: rgba(228, 78, 52, 0.74);
+    color: white;
+}
+
+.player-heal-log {
+    background-color: rgb(73, 201, 57);
     color: white;
 }
 
