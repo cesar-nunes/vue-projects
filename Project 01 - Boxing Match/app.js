@@ -108,12 +108,19 @@ new Vue({
                 logPanel.removeChild(logPanel.lastChild)
                 counter++
             }
+
             console.log(`${counter} logs removed from the log panel.`)
 
             // reset life bars and life %
+            this.player.life = "100%"
+            this.tyson.life = "100%"
 
+            console.log("Fighters lifes set to 100%")
 
             // show "New Match" button and hide the others
+
+            
+            console.log("Reset processed successfully!")
         },
         /**
          * Returns a random number between min (inclusive) and max (inclusive)
