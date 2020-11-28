@@ -17,12 +17,27 @@ new Vue({
                 max: 16,
                 counter: 1
             },
+            /**
+             * Calculates the jab hit value
+             * @param {function} getRandomNumber Function that returns a random number between a given interval
+             * @return {Number} Jab hit value
+             */
             getJabHit(getRandomNumber) {
                 return getRandomNumber(this.jab.min, this.jab.max)
             },
+            /**
+             * Calculates the cross hit value
+             * @param {function} getRandomNumber Function that returns a random number between a given interval
+             * @return {Number} Cross hit value
+             */
             getCrossHit(getRandomNumber) {
                 return getRandomNumber(this.cross.min, this.cross.max)
             },
+            /**
+             * Calculates the heal value
+             * @param {function} getRandomNumber Function that returns a random number between a given interval
+             * @return {Number} Heal value
+             */
             getHealValue(getRandomNumber) {
                 return getRandomNumber(this.heal.min, this.heal.max)
             },
@@ -31,12 +46,21 @@ new Vue({
             life: "100%",
             minHit: 7,
             maxHit: 12,
+            /**
+             * Calculates the Tyson hit
+             * @param {function} getRandomNumber Function that returns a random number between a given interval
+             * @return {Number} Tyson hit value
+             */
             getHit(getRandomNumber) {
                 return getRandomNumber(this.minHit, this.maxHit)
             },
         }
     },
     computed: {
+        /**
+         * Checks if the match is over based on the fighters current life percentage
+         * @return {Boolean} Boolean that indicates if the match is over or not
+         */
         isMatchOver() {
             const playerLife = this.getFighterLifeAsNumber(this.player)
             const tysonLife = this.getFighterLifeAsNumber(this.tyson)
@@ -52,6 +76,9 @@ new Vue({
         }
     },
     methods: {
+        /**
+         * Executed when the player presses the "New Match" button
+         */
         startMatch() {
             console.log("Starting a new match...")
 
@@ -67,6 +94,9 @@ new Vue({
             console.log("New Match button hidden and Control buttons displayed")
             console.log("Match started successfully!")
         },
+        /**
+         * Executed when the player presses the "Jab" button
+         */
         processJab() {
             console.log("Processing jab...")
 
@@ -89,6 +119,9 @@ new Vue({
 
             console.log("Jab processed successfully!")
         },
+        /**
+         * Executed when the player presses the "Cross" button
+         */
         processCross() {
             console.log("Processing cross...")
 
@@ -112,6 +145,9 @@ new Vue({
             console.log("Cross processed successfully!")
 
         },
+        /**
+         * Executed when the player presses the "Heal" button
+         */
         processHeal() {
             console.log("Processing heal...")
 
@@ -135,6 +171,9 @@ new Vue({
             console.log("Heal processed successfully!")
 
         },
+        /**
+         * Executed when the player presses the "Reset" button
+         */
         resetMatch() {
             console.log("Reseting match...")
 
@@ -145,6 +184,14 @@ new Vue({
 
             console.log("Reset processed successfully!")
         },
+        /**
+         * Resets most of the parameters used in the application:
+         * - Erases the existing logs
+         * - Restores fighters lifes
+         * - Disables the "Heal" button
+         * - Resets both Heal and Cross counters
+         * - Hides the result panel
+         */
         executeBasicReset() {
             console.log("Executing basic reset...")
 
@@ -181,17 +228,27 @@ new Vue({
          * Returns a random number between min (inclusive) and max (inclusive)
          * @param {Number} min Minimum number of the interval
          * @param {Number} max Maximum number of the interval
-         * @return {Number}    Random number between the interval
+         * @return {Number} Random number between the interval
          */
         getRandomNumber(min, max) {
             return Math.floor(Math.random() * (max - min + 1) + min)
         },
+        /**
+         * Returns the fighter's current life as an integer.
+         * @param {Object} fighter One of the fighters objects present in the Vue instance. It can be "tyson" or the "player".
+         * @return {Number} Integer that represents the current life of the fighter 
+         */
         getFighterLifeAsNumber(fighter) {
             return Number(fighter.life.substring(0, fighter.life.length - 1))
         },
-        updateFighterLife(fighter, hitReceived) {
+        /**
+         * Updates the fighter's current life based on the opponent hit.
+         * @param {Object} fighter One of the fighters objects present in the Vue instance. It can be "tyson" or the "player".
+         * @param {Number} value Hit received by the opponent.
+         */
+        updateFighterLife(fighter, value) {
             let fighterLife = this.getFighterLifeAsNumber(fighter)
-            fighterLife -= hitReceived
+            fighterLife -= value
 
             if (fighterLife >= 100)
                 fighter.life = "100%"
@@ -200,6 +257,12 @@ new Vue({
             else
                 fighter.life = `${fighterLife}%`
         },
+        /**
+         * Creates the Player hit log, Tyson hit log and healing value log and inserts them into the log panel.
+         * @param {Number} playerHit Player hit value
+         * @param {Number} tysonHit Tyson hit value
+         * @param {Number} healValue Healing value
+         */
         createLogs(playerHit, tysonHit, healValue) {
             console.log("Creating logs...")
 
@@ -228,7 +291,7 @@ new Vue({
                 // player heal log
                 const playerHealLog = document.createElement("div")
                 playerHealLog.className = "base-log player-heal-log"
-                playerHealLog.innerText = `You recovered ${healValue}% of your energy.`
+                playerHealLog.innerText = `You recovered ${healValue.toString()}% of your energy.`
 
                 // tyson hit log
                 const tysonHitLog = document.createElement("div")
@@ -242,6 +305,11 @@ new Vue({
 
             console.log("Logs created successfully!")
         },
+        /**
+         * Changes the fighter's bar life color depending on the current life percentage
+         * @param {Object} fighter One of the fighters objects present in the Vue instance. It can be "tyson" or the "player"
+         * @param {Element} lifeBar DOM element that represents the fighter's life bar
+         */
         updateLifeBarColor(fighter, lifeBar) {
             const fighterLife = this.getFighterLifeAsNumber(fighter)
 
@@ -252,12 +320,18 @@ new Vue({
                 lifeBar.style.backgroundColor = "rgb(0, 128, 0)"
             }
         },
+        /**
+         * Sets both fighters' lifes to 100%
+         */
         resetFightersLifes() {
             this.player.life = "100%"
             this.tyson.life = "100%"
 
             console.log("Fighters lifes set to 100%")
         },
+        /**
+         * Removes all logs from the log panel and then hides it
+         */
         clearAndHideLogPanel() {
             console.log("Clearing log panel...")
 
@@ -273,6 +347,9 @@ new Vue({
 
             console.log(`${counter} logs removed from the log panel.\nLog panel hidden`)
         },
+        /**
+         * Displays the "New Match" button and hides all other buttons
+         */
         showNewMatchButtonAndHideOthers() {
             document.querySelector("input.new-match").style.display = "block"
             document.querySelector("input.jab").style.display = "none"
