@@ -43,7 +43,11 @@ new Vue({
         startMatch() {
             console.log("Starting a new match...")
 
-            this.resetFightersLifes()
+            // // clear and hide log panel
+            // this.clearAndHideLogPanel()
+
+            // // reset figthters lifes
+            // this.resetFightersLifes()
 
             // hide "New Match" button and show the others
             document.querySelector("input.new-match").style.display = "none"
@@ -127,16 +131,9 @@ new Vue({
             console.log("Reseting match...")
 
             // clear and hide log panel
-            const logPanel = document.querySelector("div.panel.logs")
+            this.clearAndHideLogPanel()
 
-            let counter = 0
-            while (logPanel.hasChildNodes()) {
-                logPanel.removeChild(logPanel.lastChild)
-                counter++
-            }
-
-            console.log(`${counter} logs removed from the log panel.`)
-
+            // reset figthters lifes
             this.resetFightersLifes()
 
             // show "New Match" button and hide the others
@@ -230,6 +227,21 @@ new Vue({
             this.tyson.life = "100%"
 
             console.log("Fighters lifes set to 100%")
+        },
+        clearAndHideLogPanel() {
+            console.log("Clearing log panel...")
+
+            const logPanel = document.querySelector("div.panel.logs")
+
+            let counter = 0
+            while (logPanel.hasChildNodes()) {
+                logPanel.removeChild(logPanel.lastChild)
+                counter++
+            }
+
+            logPanel.style.display = "none"
+
+            console.log(`${counter} logs removed from the log panel.\nLog panel hidden`)
         }
     },
     watch: {
@@ -237,6 +249,12 @@ new Vue({
             // change life bar color if necessary
             const playerLifeBar = document.querySelector("div.player-life-bar")
             this.updateLifeBarColor(this.player, playerLifeBar)
+
+            // if log panel is hidden, display it
+            if (window.getComputedStyle(document.querySelector("div.logs")).display === "none") {
+                document.querySelector("div.logs").style.display = "block"
+                console.log("Log panel displayed")
+            }
 
             // check if match is over
             const playerLife = Number(newLife.substring(0, newLife.length - 1))

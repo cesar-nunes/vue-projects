@@ -7,7 +7,6 @@ html {
 #app {
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
 }
 
 .panel {
@@ -30,9 +29,6 @@ html {
     margin: 10px 40px 10px 40px;
     padding: 10px;
     text-align: center;
-
-    /* remove later*/
-    border: 1px solid black;
 }
 
 .base-life-bar {
@@ -65,9 +61,6 @@ html {
 .base-result {
     font-weight: bold;
     display: none;
-
-    /* remove later*/
-    border: 1px solid black;
 }
 
 .you-won {
@@ -134,6 +127,7 @@ html {
 .logs {
     display: flex;
     flex-direction: column;
+    display: none;
 }
 
 .base-log {
@@ -142,9 +136,6 @@ html {
     padding-top: 5px;
     text-align: center;
     margin-bottom: 5px;
-
-    /* remove later*/
-    border: 1px solid black;
 }
 
 .player-hit-log {
