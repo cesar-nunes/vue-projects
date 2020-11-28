@@ -43,12 +43,6 @@ new Vue({
         startMatch() {
             console.log("Starting a new match...")
 
-            // // clear and hide log panel
-            // this.clearAndHideLogPanel()
-
-            // // reset figthters lifes
-            // this.resetFightersLifes()
-
             // hide "New Match" button and show the others
             document.querySelector("input.new-match").style.display = "none"
             document.querySelector("input.jab").style.display = "block"
@@ -137,14 +131,22 @@ new Vue({
             this.resetFightersLifes()
 
             // show "New Match" button and hide the others
-            document.querySelector("input.new-match").style.display = "block"
+            this.showNewMatchButtonAndHideOthers()
+
+            // disable Heal button if it's enabled
+            if (!document.querySelector("input.heal").disabled) {
+                document.querySelector("input.heal").disabled = true
+            }
+
+            console.log("Heal button disabled")
 
             // hide results
+            document.querySelector("div.you-won").style.display = "none"
+            document.querySelector("div.you-lost").style.display = "none"
+            document.querySelector("div.tie").style.display = "none"
+            document.querySelector("div.result").style.display = "none"
 
-
-            // hide log panel
-
-
+            console.log("Result panel hidden")
             console.log("Reset processed successfully!")
         },
         /**
@@ -215,11 +217,11 @@ new Vue({
         updateLifeBarColor(fighter, lifeBar) {
             const fighterLife = this.getFighterLifeAsNumber(fighter)
 
-            if (fighterLife < 20) {
-                lifeBar.style.backgroundColor = "red"
+            if (fighterLife < 20 && window.getComputedStyle(lifeBar).backgroundColor !== "rgb(255, 0, 0)") { // red: rgb(255, 0, 0)
+                lifeBar.style.backgroundColor = "rgb(255, 0, 0)"
             }
-            else {
-                lifeBar.style.backgroundColor = "green"
+            else if (fighterLife >= 20 && window.getComputedStyle(lifeBar).backgroundColor !== "rgb(0, 128, 0)") { // green: rgb(0, 128, 0)
+                lifeBar.style.backgroundColor = "rgb(0, 128, 0)"
             }
         },
         resetFightersLifes() {
@@ -242,16 +244,32 @@ new Vue({
             logPanel.style.display = "none"
 
             console.log(`${counter} logs removed from the log panel.\nLog panel hidden`)
+        },
+        showNewMatchButtonAndHideOthers() {
+            document.querySelector("input.new-match").style.display = "block"
+            document.querySelector("input.jab").style.display = "none"
+            document.querySelector("input.cross").style.display = "none"
+            document.querySelector("input.heal").style.display = "none"
+            document.querySelector("input.reset").style.display = "none"
+
+            console.log("Control buttons hidden")
         }
     },
     watch: {
         'player.life'(newLife, oldLife) {
+            // enable Heal button if it's disabled
+            if (document.querySelector("input.heal").disabled) {
+                document.querySelector("input.heal").disabled = false
+                document.querySelector("input.heal").style.backgroundColor = "green"
+                console.log("Heal button enabled")
+            }
+
             // change life bar color if necessary
             const playerLifeBar = document.querySelector("div.player-life-bar")
             this.updateLifeBarColor(this.player, playerLifeBar)
 
-            // if log panel is hidden, display it
-            if (window.getComputedStyle(document.querySelector("div.logs")).display === "none") {
+            // if log panel is hidden and playre life is not 100%, display it
+            if (window.getComputedStyle(document.querySelector("div.logs")).display === "none" && newLife !== "100%") {
                 document.querySelector("div.logs").style.display = "block"
                 console.log("Log panel displayed")
             }
@@ -260,17 +278,19 @@ new Vue({
             const playerLife = Number(newLife.substring(0, newLife.length - 1))
             const tysonLife = this.getFighterLifeAsNumber(this.tyson)
 
-            if (playerLife > 0 && tysonLife <= 0) { // you won
+            if (playerLife <= 0 || tysonLife <= 0) {
                 document.querySelector("div.result").style.display = "block"
-                document.querySelector("div.you-won").style.display = "block"
-            }
-            else if (playerLife <= 0 && tysonLife > 0) { // you lost
-                document.querySelector("div.result").style.display = "block"
-                document.querySelector("div.you-lost").style.display = "block"
-            }
-            else if (playerLife <= 0 && tysonLife <= 0) { // tie
-                document.querySelector("div.result").style.display = "block"
-                document.querySelector("div.tie").style.display = "block"
+                this.showNewMatchButtonAndHideOthers()
+
+                if (playerLife > 0 && tysonLife <= 0) { // you won
+                    document.querySelector("div.you-won").style.display = "block"
+                }
+                else if (playerLife <= 0 && tysonLife > 0) { // you lost
+                    document.querySelector("div.you-lost").style.display = "block"
+                }
+                else if (playerLife <= 0 && tysonLife <= 0) { // tie
+                    document.querySelector("div.tie").style.display = "block"
+                }
             }
         },
         'tyson.life'(newLife, oldLife) {
