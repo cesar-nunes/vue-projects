@@ -59,30 +59,27 @@ html {
     display: flex;
     flex-direction: column;
     text-align: center;
+    display: none;
+}
+
+.base-result {
+    font-weight: bold;
+    display: none;
+
+    /* remove later*/
+    border: 1px solid black;
 }
 
 .you-won {
     color: green;
-    font-weight: bold;
-
-    /* remove later*/
-    border: 1px solid black;
 }
 
 .you-lost {
     color: red;
-    font-weight: bold;
-    
-    /* remove later*/
-    border: 1px solid black;
 }
 
 .tie {
     color: black;
-    font-weight: bold;
-    
-    /* remove later*/
-    border: 1px solid black;
 }
 
 /* RESULT */

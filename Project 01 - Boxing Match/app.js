@@ -56,8 +56,8 @@ new Vue({
             console.log(`Player jab hit: ${playerHit}, Tyson hit: ${tysonHit}`)
 
             // update life bars and life %
-            this.updateFighterLife(this.player, tysonHit)
             this.updateFighterLife(this.tyson, playerHit)
+            this.updateFighterLife(this.player, tysonHit)
 
             console.log(`Player life: ${this.player.life}, Tyson life: ${this.tyson.life}`)
 
@@ -78,8 +78,8 @@ new Vue({
             console.log(`Player cross hit: ${playerHit}, Tyson hit: ${tysonHit}`)
 
             // update life bars and life %
-            this.updateFighterLife(this.player, tysonHit)
             this.updateFighterLife(this.tyson, playerHit)
+            this.updateFighterLife(this.player, tysonHit)
 
             console.log(`Player life: ${this.player.life}, Tyson life: ${this.tyson.life}`)
 
@@ -135,6 +135,9 @@ new Vue({
             // show "New Match" button and hide the others
 
 
+            // hide results
+
+
             // hide log panel
 
 
@@ -151,8 +154,8 @@ new Vue({
         },
         getFighterLifeAsNumber(fighter) {
             return Number(fighter.life.substring(0, fighter.life.length - 1))
-        }
-        , updateFighterLife(fighter, hitReceived) {
+        },
+        updateFighterLife(fighter, hitReceived) {
             let fighterLife = this.getFighterLifeAsNumber(fighter)
             fighterLife -= hitReceived
 
@@ -218,16 +221,35 @@ new Vue({
     },
     watch: {
         'player.life'(newLife, oldLife) {
+            // change life bar color if necessary
             const playerLifeBar = document.querySelector("div.player-life-bar")
             this.updateLifeBarColor(this.player, playerLifeBar)
+
+            // check if match is over
+            const playerLife = Number(newLife.substring(0, newLife.length - 1))
+            const tysonLife = this.getFighterLifeAsNumber(this.tyson)
+
+            if (playerLife > 0 && tysonLife <= 0) { // you won
+                document.querySelector("div.result").style.display = "block"
+                document.querySelector("div.you-won").style.display = "block"
+            }
+            else if (playerLife <= 0 && tysonLife > 0) { // you lost
+                document.querySelector("div.result").style.display = "block"
+                document.querySelector("div.you-lost").style.display = "block"
+            }
+            else if (playerLife <= 0 && tysonLife <= 0) { // tie
+                document.querySelector("div.result").style.display = "block"
+                document.querySelector("div.tie").style.display = "block"
+            }
         },
         'tyson.life'(newLife, oldLife) {
+            // change life bar color if necessary
             const tysonLifeBar = document.querySelector("div.tyson-life-bar")
             this.updateLifeBarColor(this.tyson, tysonLifeBar)
         },
         'player.cross.counter'(newCounter, oldCounter) {
             console.log(`Cross counter is now ${newCounter}`)
-            
+
             if (newCounter === 0) { // enable cross button
                 document.querySelector("input.cross").disabled = false
                 document.querySelector("input.cross").style.backgroundColor = "orange"
@@ -243,7 +265,7 @@ new Vue({
         },
         'player.heal.counter'(newCounter, oldCounter) {
             console.log(`Heal counter is now ${newCounter}`)
-            
+
             if (newCounter === 0) {
                 document.querySelector("input.heal").disabled = true
                 document.querySelector("input.heal").style.backgroundColor = "grey"
