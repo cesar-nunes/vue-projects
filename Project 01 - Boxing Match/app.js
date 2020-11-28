@@ -119,7 +119,10 @@ new Vue({
 
             // show "New Match" button and hide the others
 
-            
+
+            // hide log panel
+
+
             console.log("Reset processed successfully!")
         },
         /**
@@ -131,8 +134,12 @@ new Vue({
         getRandomNumber(min, max) {
             return Math.floor(Math.random() * (max - min + 1) + min)
         },
-        updateFighterLife(fighter, hitReceived) {
-            let fighterLife = Number(fighter.life.substring(0, fighter.life.length - 1))
+        getFighterLifeAsNumber(fighter) {
+            return Number(fighter.life.substring(0, fighter.life.length - 1))
+        }
+        , updateFighterLife(fighter, hitReceived) {
+            // let fighterLife = Number(fighter.life.substring(0, fighter.life.length - 1))
+            let fighterLife = this.getFighterLifeAsNumber(fighter)
             fighterLife -= hitReceived
 
             if (fighterLife >= 100)
@@ -183,9 +190,26 @@ new Vue({
             }
 
             console.log("Logs created successfully!")
+        },
+        updateLifeBarColor(fighter, lifeBar) {
+            const fighterLife = this.getFighterLifeAsNumber(fighter)
+            
+            if (fighterLife < 20) {
+                lifeBar.style.backgroundColor = "red"
+            }
+            else {
+                lifeBar.style.backgroundColor = "green"
+            }
         }
     },
     watch: {
-
+        'player.life'(newLife, oldLife) {
+            const playerLifeBar = document.querySelector("div.player-life-bar")
+            this.updateLifeBarColor(this.player, playerLifeBar)
+        },
+        'tyson.life'(newLife, oldLife) {
+            const tysonLifeBar = document.querySelector("div.tyson-life-bar")
+            this.updateLifeBarColor(this.tyson, tysonLifeBar)
+        }
     }
 })
