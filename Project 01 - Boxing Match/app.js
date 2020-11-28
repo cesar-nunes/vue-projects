@@ -3,20 +3,28 @@ new Vue({
     data: {
         player: {
             life: "100%",
-            minJab: 5,
-            maxJab: 10,
-            minCross: 12,
-            maxCross: 15,
-            minHeal: 10,
-            maxHeal: 16,
+            jab: {
+                min: 5,
+                max: 10
+            },
+            cross: {
+                min: 12,
+                max: 15,
+                counter: 0
+            },
+            heal: {
+                min: 10,
+                max: 16,
+                counter: 1
+            },
             getJabHit(getRandomNumber) {
-                return getRandomNumber(this.minJab, this.maxJab)
+                return getRandomNumber(this.jab.min, this.jab.max)
             },
             getCrossHit(getRandomNumber) {
-                return getRandomNumber(this.minCross, this.maxCross)
+                return getRandomNumber(this.cross.min, this.cross.max)
             },
             getHealValue(getRandomNumber) {
-                return getRandomNumber(this.minHeal, this.maxHeal)
+                return getRandomNumber(this.heal.min, this.heal.max)
             },
         },
         tyson: {
@@ -79,6 +87,8 @@ new Vue({
         },
         processHeal() {
             console.log("Processing heal...")
+
+            this.player.heal.counter--
 
             // calculate player heal value and tyson hit
             const healValue = this.player.getHealValue(this.getRandomNumber)
@@ -193,7 +203,7 @@ new Vue({
         },
         updateLifeBarColor(fighter, lifeBar) {
             const fighterLife = this.getFighterLifeAsNumber(fighter)
-            
+
             if (fighterLife < 20) {
                 lifeBar.style.backgroundColor = "red"
             }
@@ -210,6 +220,15 @@ new Vue({
         'tyson.life'(newLife, oldLife) {
             const tysonLifeBar = document.querySelector("div.tyson-life-bar")
             this.updateLifeBarColor(this.tyson, tysonLifeBar)
-        }
+        },
+        'player.cross.counter'(newCounter, oldCounter) {
+
+        },
+        'player.heal.counter'(newCounter, oldCounter) {
+            if (newCounter === 0) {
+                document.querySelector("input.heal").disabled = true
+                document.querySelector("input.heal").style.backgroundColor = "grey"
+            }
+        },
     }
 })
