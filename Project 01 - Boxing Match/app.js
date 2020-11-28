@@ -43,6 +43,17 @@ new Vue({
         startMatch() {
             console.log("Starting a new match...")
 
+            this.resetFightersLifes()
+
+            // hide "New Match" button and show the others
+            document.querySelector("input.new-match").style.display = "none"
+            document.querySelector("input.jab").style.display = "block"
+            document.querySelector("input.cross").style.display = "block"
+            document.querySelector("input.heal").style.display = "block"
+            document.querySelector("input.reset").style.display = "block"
+
+            console.log("Control buttons displayed")
+            console.log("Match started successfully!")
         },
         processJab() {
             console.log("Processing jab...")
@@ -126,14 +137,10 @@ new Vue({
 
             console.log(`${counter} logs removed from the log panel.`)
 
-            // reset life bars and life %
-            this.player.life = "100%"
-            this.tyson.life = "100%"
-
-            console.log("Fighters lifes set to 100%")
+            this.resetFightersLifes()
 
             // show "New Match" button and hide the others
-
+            document.querySelector("input.new-match").style.display = "block"
 
             // hide results
 
@@ -217,6 +224,12 @@ new Vue({
             else {
                 lifeBar.style.backgroundColor = "green"
             }
+        },
+        resetFightersLifes() {
+            this.player.life = "100%"
+            this.tyson.life = "100%"
+
+            console.log("Fighters lifes set to 100%")
         }
     },
     watch: {

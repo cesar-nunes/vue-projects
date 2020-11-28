@@ -97,12 +97,14 @@ html {
     height: 40px;
     width: 70px;
     font-weight: bold;
+    display: none;
 }
 
 .new-match {
     background-color: rgb(111, 162, 255);
     color: white;
     width: 100px;
+    display: block;
 }
 
 .jab {
@@ -121,7 +123,6 @@ html {
 }
 
 .reset {
-    /* background-color: rgba(116, 115, 115, 0.568); */
     background-color: red;
     color: white;
 }
