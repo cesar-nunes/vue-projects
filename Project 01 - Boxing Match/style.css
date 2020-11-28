@@ -77,6 +77,14 @@ html {
     border: 1px solid black;
 }
 
+.tie {
+    color: black;
+    font-weight: bold;
+    
+    /* remove later*/
+    border: 1px solid black;
+}
+
 /* RESULT */
 
 /* BUTTONS */

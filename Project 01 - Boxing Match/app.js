@@ -10,7 +10,7 @@ new Vue({
             cross: {
                 min: 12,
                 max: 15,
-                counter: 0
+                counter: 3
             },
             heal: {
                 min: 10,
@@ -47,6 +47,8 @@ new Vue({
         processJab() {
             console.log("Processing jab...")
 
+            this.player.cross.counter--
+
             // calculate hits
             const playerHit = this.player.getJabHit(this.getRandomNumber)
             const tysonHit = this.tyson.getHit(this.getRandomNumber)
@@ -66,6 +68,8 @@ new Vue({
         },
         processCross() {
             console.log("Processing cross...")
+
+            this.player.cross.counter = 3
 
             // calculate hits
             const playerHit = this.player.getCrossHit(this.getRandomNumber)
@@ -89,6 +93,7 @@ new Vue({
             console.log("Processing heal...")
 
             this.player.heal.counter--
+            this.player.cross.counter--
 
             // calculate player heal value and tyson hit
             const healValue = this.player.getHealValue(this.getRandomNumber)
@@ -148,7 +153,6 @@ new Vue({
             return Number(fighter.life.substring(0, fighter.life.length - 1))
         }
         , updateFighterLife(fighter, hitReceived) {
-            // let fighterLife = Number(fighter.life.substring(0, fighter.life.length - 1))
             let fighterLife = this.getFighterLifeAsNumber(fighter)
             fighterLife -= hitReceived
 
@@ -222,12 +226,29 @@ new Vue({
             this.updateLifeBarColor(this.tyson, tysonLifeBar)
         },
         'player.cross.counter'(newCounter, oldCounter) {
+            console.log(`Cross counter is now ${newCounter}`)
+            
+            if (newCounter === 0) { // enable cross button
+                document.querySelector("input.cross").disabled = false
+                document.querySelector("input.cross").style.backgroundColor = "orange"
 
+                console.log("Cross button is enabled")
+            }
+            else if (newCounter > 0) { // disable cross button
+                document.querySelector("input.cross").disabled = true
+                document.querySelector("input.cross").style.backgroundColor = "grey"
+
+                console.log("Cross button is disabled")
+            }
         },
         'player.heal.counter'(newCounter, oldCounter) {
+            console.log(`Heal counter is now ${newCounter}`)
+            
             if (newCounter === 0) {
                 document.querySelector("input.heal").disabled = true
                 document.querySelector("input.heal").style.backgroundColor = "grey"
+
+                console.log("Heal button is disabled")
             }
         },
     }
