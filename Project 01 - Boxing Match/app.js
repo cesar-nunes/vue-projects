@@ -4,8 +4,8 @@ new Vue({
         player: {
             life: "100%",
             jab: {
-                min: 5,
-                max: 10
+                min: 6,
+                max: 11
             },
             cross: {
                 min: 12,
@@ -37,11 +37,25 @@ new Vue({
         }
     },
     computed: {
+        isMatchOver() {
+            const playerLife = this.getFighterLifeAsNumber(this.player)
+            const tysonLife = this.getFighterLifeAsNumber(this.tyson)
 
+            if (playerLife <= 0 || tysonLife <= 0) {
+                console.log("The fight is over")
+                return true
+            }
+            else {
+                console.log("The fighters still have energy to continue fighting")
+                return false
+            }
+        }
     },
     methods: {
         startMatch() {
             console.log("Starting a new match...")
+
+            this.executeBasicReset()
 
             // hide "New Match" button and show the others
             document.querySelector("input.new-match").style.display = "none"
@@ -50,7 +64,7 @@ new Vue({
             document.querySelector("input.heal").style.display = "block"
             document.querySelector("input.reset").style.display = "block"
 
-            console.log("Control buttons displayed")
+            console.log("New Match button hidden and Control buttons displayed")
             console.log("Match started successfully!")
         },
         processJab() {
@@ -124,30 +138,44 @@ new Vue({
         resetMatch() {
             console.log("Reseting match...")
 
+            this.executeBasicReset()
+
+            // show "New Match" button and hide the others
+            this.showNewMatchButtonAndHideOthers()
+
+            console.log("Reset processed successfully!")
+        },
+        executeBasicReset() {
+            console.log("Executing basic reset...")
+
             // clear and hide log panel
             this.clearAndHideLogPanel()
 
             // reset figthters lifes
             this.resetFightersLifes()
 
-            // show "New Match" button and hide the others
-            this.showNewMatchButtonAndHideOthers()
-
             // disable Heal button if it's enabled
             if (!document.querySelector("input.heal").disabled) {
                 document.querySelector("input.heal").disabled = true
+                document.querySelector("input.heal").style.backgroundColor = "grey"
+                console.log("Heal button disabled")
             }
 
-            console.log("Heal button disabled")
+            // reset Heal and Cross counters
+            this.player.heal.counter = 1
+            this.player.cross.counter = 3
 
-            // hide results
-            document.querySelector("div.you-won").style.display = "none"
-            document.querySelector("div.you-lost").style.display = "none"
-            document.querySelector("div.tie").style.display = "none"
-            document.querySelector("div.result").style.display = "none"
+            console.log(`Heal and Cross counters reseted. Heal counter: ${this.player.heal.counter}, Cross counter: ${this.player.cross.counter}`)
 
-            console.log("Result panel hidden")
-            console.log("Reset processed successfully!")
+            // hide results if they are displayed
+            const results = document.querySelectorAll("div.result, div.base-result")
+            results.forEach(result => {
+                if (window.getComputedStyle(result).display === "block") {
+                    result.style.display = "none"
+                }
+            });
+
+            console.log("Basic reset executed successfully!")
         },
         /**
          * Returns a random number between min (inclusive) and max (inclusive)
@@ -252,13 +280,13 @@ new Vue({
             document.querySelector("input.heal").style.display = "none"
             document.querySelector("input.reset").style.display = "none"
 
-            console.log("Control buttons hidden")
+            console.log("New Match button displayed and Control buttons hidden")
         }
     },
     watch: {
         'player.life'(newLife, oldLife) {
-            // enable Heal button if it's disabled
-            if (document.querySelector("input.heal").disabled) {
+            // enable Heal button if necessary
+            if (document.querySelector("input.heal").disabled && newLife !== "100%" && this.player.heal.counter !== 0) {
                 document.querySelector("input.heal").disabled = false
                 document.querySelector("input.heal").style.backgroundColor = "green"
                 console.log("Heal button enabled")
@@ -268,19 +296,19 @@ new Vue({
             const playerLifeBar = document.querySelector("div.player-life-bar")
             this.updateLifeBarColor(this.player, playerLifeBar)
 
-            // if log panel is hidden and playre life is not 100%, display it
+            // if log panel is hidden and player life is not 100%, display it
             if (window.getComputedStyle(document.querySelector("div.logs")).display === "none" && newLife !== "100%") {
                 document.querySelector("div.logs").style.display = "block"
                 console.log("Log panel displayed")
             }
 
             // check if match is over
-            const playerLife = Number(newLife.substring(0, newLife.length - 1))
-            const tysonLife = this.getFighterLifeAsNumber(this.tyson)
-
-            if (playerLife <= 0 || tysonLife <= 0) {
+            if (this.isMatchOver) {
                 document.querySelector("div.result").style.display = "block"
                 this.showNewMatchButtonAndHideOthers()
+
+                const playerLife = this.getFighterLifeAsNumber(this.player)
+                const tysonLife = this.getFighterLifeAsNumber(this.tyson)
 
                 if (playerLife > 0 && tysonLife <= 0) { // you won
                     document.querySelector("div.you-won").style.display = "block"
