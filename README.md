@@ -7,7 +7,7 @@ Projects developed when I was learning Vue.js
 It's a game where the goal is to beat Mike Tyson on a 1x1 boxing match.
 
 ### 1. How to Play
-Clone this respository and open the file Project 01 - Boxing Match > index.html
+Clone this respository and open the file ~/Project 01 - Boxing Match/index.html
 
 ### 2. Game Rules
 - There are 4 different actions the player can take:
